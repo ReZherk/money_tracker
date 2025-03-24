@@ -84,16 +84,6 @@ class _AddTransactionDialogState extends State<AddTransactionDialog> {
                 '',
               );
 
-              /*if (valueWithoutCommas.isNotEmpty) {
-                final result = double.parse(valueWithoutCommas);
-
-                final signo =
-                    type == TransactionType.expense
-                        ? '- ${result.abs().toStringAsFixed(2)}'
-                        : ' ${result.toStringAsFixed(2)}';
-                amount = double.parse(signo);
-              }*/
-
               if (valueWithoutCommas.isNotEmpty) {
                 amount = double.parse(valueWithoutCommas);
               }

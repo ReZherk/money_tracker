@@ -1,9 +1,14 @@
+import 'package:contador/model/local_storage_service.dart';
 import 'package:contador/model/transaction.dart';
 import 'package:flutter/cupertino.dart';
 
 class TransactionProvider extends ChangeNotifier {
+  TransactionProvider() {
+    _loadData();
+  }
+
   final List<Transaction> _transactions = [
-    Transaction(
+    /*Transaction(
       type: TransactionType.income,
       amount: 1000.00,
       description: 'Salary',
@@ -12,8 +17,25 @@ class TransactionProvider extends ChangeNotifier {
       type: TransactionType.expense,
       amount: -500.00,
       description: 'Rent',
-    ),
+    ),*/
   ];
+
+  //Instancia de local_storage_service.
+  final LocalStorageService _storageService = LocalStorageService();
+
+  //Cargando Guardar.
+  Future<void> _saveData() async {
+    await _storageService.saveTransactions(_transactions);
+  }
+
+  //Cargando Transacciones.
+  Future<void> _loadData() async {
+    List<Transaction> loadedTransactions =
+        await _storageService.loadTransactions();
+
+    _transactions.addAll(loadedTransactions);
+    notifyListeners();
+  }
 
   List<Transaction> get transactions => _transactions;
 
@@ -37,6 +59,7 @@ class TransactionProvider extends ChangeNotifier {
 
   void addTransaction(Transaction transaction) {
     _transactions.add(transaction);
+    _saveData();
     notifyListeners();
   }
 }
